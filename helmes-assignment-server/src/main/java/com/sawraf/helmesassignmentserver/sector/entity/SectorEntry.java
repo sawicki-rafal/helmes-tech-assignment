@@ -1,22 +1,18 @@
-package com.sawraf.helmestechassignment.sector.entity;
+package com.sawraf.helmesassignmentserver.sector.entity;
 
-import com.sawraf.helmestechassignment.model.AbstractEntity;
+
+import com.sawraf.helmesassignmentserver.model.AbstractEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import java.util.List;
 
 @Entity
 public class SectorEntry extends AbstractEntity {
 
-    @Id
-    private Long id;
-
     private String name;
 
-    //ManyToMany
-    @OneToMany
+    @ManyToMany
     private List<Sector> sectors;
 
     private boolean agreedToTerms;

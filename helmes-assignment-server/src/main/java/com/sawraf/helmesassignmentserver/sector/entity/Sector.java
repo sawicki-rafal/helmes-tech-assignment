@@ -1,6 +1,7 @@
-package com.sawraf.helmestechassignment.sector.entity;
+package com.sawraf.helmesassignmentserver.sector.entity;
 
-import com.sawraf.helmestechassignment.model.AbstractEntity;
+
+import com.sawraf.helmesassignmentserver.model.AbstractEntity;
 
 import javax.persistence.Entity;
 
