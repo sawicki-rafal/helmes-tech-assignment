@@ -19,28 +19,4 @@ public class Sector extends AbstractEntity {
     private Integer value;
 
     private Integer parentValue;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public Integer getParentValue() {
-        return parentValue;
-    }
-
-    public void setParentValue(Integer parentValue) {
-        this.parentValue = parentValue;
-    }
 }
