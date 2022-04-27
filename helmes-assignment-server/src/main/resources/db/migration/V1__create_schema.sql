@@ -1,3 +1,5 @@
+CREATE SEQUENCE hibernate_sequence START 1;
+
 CREATE TABLE sectors
 (
     id        bigint PRIMARY KEY,
