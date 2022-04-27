@@ -7,6 +7,8 @@ import com.sawraf.helmesassignmentserver.model.AbstractEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +21,8 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true, exclude = {"childrenSectors"})
 public class Sector extends AbstractEntity {
 
+    @NotNull
+    @Size(min = 3, message = "Name must contain at least 3 characters")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
