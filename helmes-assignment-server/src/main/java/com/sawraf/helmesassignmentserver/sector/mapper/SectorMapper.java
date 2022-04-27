@@ -2,6 +2,8 @@ package com.sawraf.helmesassignmentserver.sector.mapper;
 
 import com.sawraf.helmesassignmentserver.sector.dto.SectorDTO;
 import com.sawraf.helmesassignmentserver.sector.entity.Sector;
+import com.sawraf.helmesassignmentserver.sector.repository.SectorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -10,7 +12,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class SectorMapper {
+
+    private final SectorRepository sectorRepository;
 
     public SectorDTO mapToDto(Sector sector) {
         SectorDTO sectorDTO = new SectorDTO();
@@ -26,14 +31,14 @@ public class SectorMapper {
         }
         Set<SectorDTO> childrenSectors = sector.getChildrenSectors().stream()
                 .map(this::mapToDto)
-                .collect(Collectors.toUnmodifiableSet());
+                .collect(Collectors.toSet());
         sectorDTO.setChildrenSectors(childrenSectors);
     }
 
     public List<SectorDTO> mapToDto(Collection<Sector> sectors) {
         return sectors.stream()
                 .map(this::mapToDto)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
 
     public Sector map(SectorDTO sectorDTO) {
@@ -43,9 +48,16 @@ public class SectorMapper {
         return sector;
     }
 
-    public List<Sector> map(Collection<SectorDTO> sectorDTOs) {
+    public Set<Sector> map(Collection<SectorDTO> sectorDTOs) {
         return sectorDTOs.stream()
                 .map(this::map)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Sector> map(List<Long> sectorIds) {
+        return sectorIds.stream()
+                //TODO throw Exception
+                .map(id -> sectorRepository.findById(id).get())
+                .collect(Collectors.toSet());
     }
 }

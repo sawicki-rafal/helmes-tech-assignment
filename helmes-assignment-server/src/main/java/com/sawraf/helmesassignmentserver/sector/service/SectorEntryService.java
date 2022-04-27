@@ -1,6 +1,7 @@
 package com.sawraf.helmesassignmentserver.sector.service;
 
 import com.sawraf.helmesassignmentserver.sector.dto.SectorEntryDTO;
+import com.sawraf.helmesassignmentserver.sector.dto.SectorEntrySaveOrUpdateDTO;
 import com.sawraf.helmesassignmentserver.sector.entity.SectorEntry;
 import com.sawraf.helmesassignmentserver.sector.mapper.SectorEntryMapper;
 import com.sawraf.helmesassignmentserver.sector.repository.SectorEntryRepository;
@@ -27,8 +28,8 @@ public class SectorEntryService {
         return sectorEntryMapper.mapToDto(all);
     }
 
-    public SectorEntryDTO saveSectorEntry(SectorEntryDTO sectorEntryDTO) {
-        final SectorEntry sectorEntry = sectorEntryRepository.save(sectorEntryMapper.map(sectorEntryDTO));
-        return sectorEntryMapper.mapToDto(sectorEntry);
+    public SectorEntryDTO saveOrUpdateSectorEntry(SectorEntrySaveOrUpdateDTO sectorEntryDTO) {
+        final SectorEntry sectorEntry2 = sectorEntryRepository.save(sectorEntryMapper.map(sectorEntryDTO));
+        return sectorEntryMapper.mapToDto(sectorEntry2);
     }
 }
