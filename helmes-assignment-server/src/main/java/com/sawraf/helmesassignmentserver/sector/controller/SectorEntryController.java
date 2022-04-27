@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+@RestController("/sector-entries")
 public class SectorEntryController {
 
     private final SectorEntryService sectorEntryService;
@@ -19,12 +19,12 @@ public class SectorEntryController {
         this.sectorEntryService = sectorEntryService;
     }
 
-    @GetMapping("/sector-entries")
+    @GetMapping
     public List<SectorEntryDTO> getAllSectorEntries() {
         return sectorEntryService.getAllSectorEntries();
     }
 
-    @PostMapping("/sector-entries")
+    @PostMapping
     public SectorEntryDTO addSectorEntry(@RequestBody @Valid SectorEntryDTO sectorEntryDTO){
         return sectorEntryService.saveSectorEntry(sectorEntryDTO);
     }
