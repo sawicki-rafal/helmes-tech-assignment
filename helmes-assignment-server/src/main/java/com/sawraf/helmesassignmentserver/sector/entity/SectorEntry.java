@@ -22,5 +22,4 @@ public class SectorEntry extends AbstractEntity {
     private List<Sector> sectors;
 
     private boolean agreedToTerms;
-
 }
