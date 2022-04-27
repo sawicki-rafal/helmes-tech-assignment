@@ -8,7 +8,7 @@ public class SectorEntryDTO {
 
     private String name;
 
-    private List<String> sectors;
+    private List<SectorDTO> sectors;
 
     private boolean isAgreedToTerms;
 
@@ -28,11 +28,11 @@ public class SectorEntryDTO {
         this.name = name;
     }
 
-    public List<String> getSectors() {
+    public List<SectorDTO> getSectors() {
         return sectors;
     }
 
-    public void setSectors(List<String> sectors) {
+    public void setSectors(List<SectorDTO> sectors) {
         this.sectors = sectors;
     }
 

@@ -10,8 +10,6 @@ public class Sector extends AbstractEntity {
 
     private String name;
 
-    private Integer value;
-
     private Integer parentValue;
 
     public String getName() {
@@ -20,14 +18,6 @@ public class Sector extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
     }
 
     public Integer getParentValue() {

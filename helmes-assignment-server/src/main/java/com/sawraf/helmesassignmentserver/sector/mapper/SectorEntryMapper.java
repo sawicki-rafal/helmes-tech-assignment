@@ -12,13 +12,17 @@ import java.util.stream.Collectors;
 @Component
 public class SectorEntryMapper {
 
+    private final SectorMapper sectorMapper;
+
+    public SectorEntryMapper(SectorMapper sectorMapper) {
+        this.sectorMapper = sectorMapper;
+    }
+
     public SectorEntryDTO mapToDto(SectorEntry entry) {
         SectorEntryDTO entryDTO = new SectorEntryDTO();
         entryDTO.setId(entry.getId());
         entryDTO.setName(entry.getName());
-        entryDTO.setSectors(entry.getSectors().stream()
-                .map(Sector::getName)
-                .collect(Collectors.toList()));
+        entryDTO.setSectors(sectorMapper.mapToDto(entry.getSectors()));
         entryDTO.setAgreedToTerms(entry.isAgreedToTerms());
         return entryDTO;
     }
@@ -33,7 +37,7 @@ public class SectorEntryMapper {
         SectorEntry entry = new SectorEntry();
         entry.setId(entryDTO.getId());
         entry.setName(entryDTO.getName());
-//        entry.setSectors(entryDTO.getSectors());
+        entry.setSectors(sectorMapper.map(entryDTO.getSectors()));
         entry.setAgreedToTerms(entryDTO.isAgreedToTerms());
         return entry;
     }
