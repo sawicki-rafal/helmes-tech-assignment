@@ -4,11 +4,21 @@ import java.util.List;
 
 public class SectorEntryDTO {
 
+    private Long id;
+
     private String name;
 
     private List<String> sectors;
 
     private boolean isAgreedToTerms;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

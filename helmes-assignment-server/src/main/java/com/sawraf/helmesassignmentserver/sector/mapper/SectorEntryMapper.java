@@ -14,6 +14,7 @@ public class SectorEntryMapper {
 
     public SectorEntryDTO mapToDto(SectorEntry entry) {
         SectorEntryDTO entryDTO = new SectorEntryDTO();
+        entryDTO.setId(entry.getId());
         entryDTO.setName(entry.getName());
         entryDTO.setSectors(entry.getSectors().stream()
                 .map(Sector::getName)
@@ -26,5 +27,14 @@ public class SectorEntryMapper {
         return entries.stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public SectorEntry map(SectorEntryDTO entryDTO) {
+        SectorEntry entry = new SectorEntry();
+        entry.setId(entryDTO.getId());
+        entry.setName(entryDTO.getName());
+//        entry.setSectors(entryDTO.getSectors());
+        entry.setAgreedToTerms(entryDTO.isAgreedToTerms());
+        return entry;
     }
 }
