@@ -22,6 +22,6 @@ public class SectorService {
     }
 
     public List<SectorDTO> getAllSectors() {
-        return sectorMapper.mapToDto(sectorRepository.findAll());
+        return sectorMapper.mapToDto(sectorRepository.findAllByParentSectorNull());
     }
 }
