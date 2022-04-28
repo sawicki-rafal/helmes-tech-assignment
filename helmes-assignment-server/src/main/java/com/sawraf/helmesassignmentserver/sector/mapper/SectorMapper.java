@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class SectorMapper {
 
     private void mapChildrenSectors(Sector sector, SectorDTO sectorDTO) {
         if (sector.getChildrenSectors().isEmpty()) {
+            sectorDTO.setChildrenSectors(new HashSet<>());
             return;
         }
         Set<SectorDTO> childrenSectors = sector.getChildrenSectors().stream()
@@ -42,13 +44,6 @@ public class SectorMapper {
         return sectors.stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
-    }
-
-    public Sector map(SectorDTO sectorDTO) {
-        final Sector sector = new Sector();
-        sector.setId(sectorDTO.getId());
-        sector.setName(sectorDTO.getName());
-        return sector;
     }
 
     public Set<Sector> map(List<Long> sectorIds) {

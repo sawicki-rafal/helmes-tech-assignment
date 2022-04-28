@@ -73,7 +73,7 @@ export default {
           label: sector.name,
           id: sector.id
         };
-        if (sector.childrenSectors) {
+        if (sector.childrenSectors && sector.childrenSectors.length > 0) {
           mappedSector = {...mappedSector, children: this.buildTree(sector.childrenSectors)}
         }
         return mappedSector;
