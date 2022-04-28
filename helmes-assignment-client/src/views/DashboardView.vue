@@ -1,6 +1,16 @@
 <template>
   <div class="full-page-wrapper">
-
+    <div class="full-page-wrapper" v-if="errors.length>0">
+      <div class="message-box">
+        <span>Please correct the following error(s):</span>
+        <ul>
+          <li v-for="error in errors" :key="error">{{ error }}</li>
+        </ul>
+        <div @click="clearErrors" class="close">
+          <img src="../assets/close-pink.svg" alt="close">
+        </div>
+      </div>
+    </div>
 
     <form @submit.prevent="saveOrUpdate" class="form">
 
@@ -37,7 +47,8 @@ export default {
         name: null,
         sectors: [],
         agreedToTerms: null,
-      }
+      },
+      errors: []
     }
   },
   mounted() {
@@ -69,7 +80,10 @@ export default {
       })
     },
     saveOrUpdate() {
-      console.log(this.form.sectors);
+      if (!this.isFormValid()) {
+        return;
+      }
+
       const sectorEntry = {
         id: this.form.id,
         name: this.form.name,
@@ -93,7 +107,7 @@ export default {
             console.log(error.response);
           });
     },
-    setResponse(returnedSectorEntry){
+    setResponse(returnedSectorEntry) {
 
       this.form = {
         id: returnedSectorEntry.id,
@@ -113,6 +127,29 @@ export default {
             this.$store.dispatch('exception/addError', error);
             console.log(error.response);
           });
+    },
+    isFormValid() {
+      const form = this.form;
+
+      if (form.name?.length > 2 && form.sectors.length !== 0 && form.agreedToTerms) {
+        return true;
+      }
+
+      this.errors = [];
+      if (!(form.name?.length > 2)) {
+        this.errors.push('Name must have at least 3 characters!');
+      }
+      if (form.sectors?.length === 0) {
+        this.errors.push('Sectors cannot be empty!');
+      }
+      if (!form.agreedToTerms) {
+        this.errors.push('You have to agree to terms!');
+      }
+
+      return false;
+    },
+    clearErrors() {
+      this.errors = [];
     }
   }
 }
@@ -133,7 +170,24 @@ export default {
   @extend %black-outline-button;
 }
 
-.label{
+.label {
   margin-bottom: 10px;
 }
+
+.message-box {
+  @extend %rounded;
+  position: relative;
+  width: 100%;
+  padding: ($large-padding+$logo-size-small) $horizontal-padding;
+  background: $error-color;
+}
+
+.close {
+  position: absolute;
+  top: $standard-padding;
+  right: $large-padding;
+  width: $logo-size-small;
+  height: $logo-size-small;
+}
+
 </style>
