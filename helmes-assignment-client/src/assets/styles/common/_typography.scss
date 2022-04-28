@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&subset=latin-ext');
+
+@mixin setBody($fs, $lh) {
+  font-size: $fs;
+  line-height: $lh;
+}
+
+html {
+  @include setBody($small-base-font-size, $small-base-line-height);
+}
+
+
+@media (min-width: $s-breakpoint) {
+  html {
+    @include setBody($medium-base-font-size, $medium-base-line-height);
+  }
+}
+
+@media (min-width: $m-breakpoint) {
+  html {
+    @include setBody($large-base-font-size, $large-base-line-height);
+  }
+}
+
+@function calcLineHeight($size) {
+  @if $size>= 1.0 {
+    $K: ceil($size/$base-line-height);
+    @return (($K * $base-line-height)/$size) * 1em;
+  } @else {
+    @return ($base-line-height/$size) * 1em;
+  }
+}
+
+@mixin header($size) {
+  font-size: $size * 1em;
+  line-height: calcLineHeight($size);
+  margin-top: (1/$size) * 0.5 *1em;
+  margin-bottom: (1/$size) * 0.5 *1em; //0.5+0.5 = 1
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  @include header(2)
+}
+
+h2 {
+  @include header(1.625)
+}
+
+h3 {
+  @include header(1.375)
+}
+
+h4 {
+  @include header(1.125)
+}
+
+h5 {
+  @include header(1.00)
+}
+
+h6 {
+  @include header(0.83)
+}
+
+@media (min-width: $s-breakpoint) {
+  h1 {
+    @include header(3)
+  }
+  h2 {
+    @include header(2.25)
+  }
+  h3 {
+    @include header(1.75)
+  }
+  h4 {
+    @include header(1.45)
+  }
+  h5 {
+    @include header(1.20)
+  }
+  h6 {
+    @include header(1.00)
+  }
+}

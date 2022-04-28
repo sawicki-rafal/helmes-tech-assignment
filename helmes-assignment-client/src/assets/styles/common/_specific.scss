@@ -1,0 +1,57 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, input:focus {
+  text-align: center;
+  font-size: 1.2rem;
+  border: 0;
+  border-bottom: 1px solid $primary-color;
+  color: $primary-color;
+  background: none;
+  outline: none;
+  padding-bottom: 5px;
+}
+
+.title {
+  min-width: 33.33vw;
+  text-align: center;
+
+  &.big {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  &.sub {
+    font-size: 1.8rem;
+  }
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  ::placeholder{
+    color: $primary-color;
+  }
+
+  input, button{
+    display: block;
+    margin-top: 25px;
+  }
+
+  button{
+    @extend %primary-button;
+  }
+}
+
+@media (min-width: $l-breakpoint) {
+  //.form{
+  //  width: initial;
+  //}
+}

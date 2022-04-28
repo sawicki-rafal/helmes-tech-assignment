@@ -1,0 +1,139 @@
+%rounded {
+  border-radius: .25rem;
+}
+
+%center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+%center-x {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+%center-y {
+  position: relative;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+%transition {
+  transition: all .8s;
+}
+
+%full-page {
+  height: 100vh;
+  width: 100%;
+}
+
+@mixin centerChildren($padding-top-bottom, $padding-left-right) {
+  padding: $padding-top-bottom $padding-left-right;
+}
+
+%primary-backgroud {
+  background: $white;
+  color: $black;
+}
+
+%secondary-background {
+  background: $secondary-color;
+  color: $black;
+}
+
+%block {
+  @extend %full-page, %rounded;
+  background: $white-opacity;
+  color: $black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $large-padding $horizontal-padding;
+
+  @media screen and (min-width: $l-breakpoint) {
+    height: initial;
+    width: initial;
+  }
+}
+
+@mixin image-background($imagePath) {
+  @extend %full-page;
+  position: fixed;
+  top: 0;
+  z-index: -1;
+
+  @media screen and (min-width: $l-breakpoint) {
+    background-image: url($imagePath);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 80% 0;
+
+    &::after {
+      content: '';
+      background: rgba(0, 0, 0, .2);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100vh;
+    }
+  }
+}
+
+%background-wrapper {
+  @extend %full-page;
+  position: fixed;
+  top: 0;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+%button {
+  @extend %rounded;
+  border: 1.5px solid;
+  padding: 10px;
+  transition: all .5s;
+  cursor: pointer;
+  font-size: 1.125em;
+  text-transform: lowercase;
+}
+
+@mixin button($bgColor, $textColor) {
+  @extend %button;
+  border-color: $bgColor;
+  background: $bgColor;
+  color: $textColor;
+}
+
+@mixin outline-button($color, $background) {
+  @extend %button;
+  border-color: $color;
+  color: $color;
+  background: $background;
+}
+
+%primary-button, %primary-outline-button:hover {
+  @include button($primary-color, $white);
+}
+
+%primary-button:hover {
+  @include outline-button($primary-color, none);
+}
+
+%primary-outline-button {
+  @include outline-button($primary-color, none);
+}
+
+%black-outline-button {
+  @include outline-button($black, none);
+}
+
+
