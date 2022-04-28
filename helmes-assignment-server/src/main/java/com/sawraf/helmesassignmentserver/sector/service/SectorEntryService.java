@@ -29,7 +29,7 @@ public class SectorEntryService {
     }
 
     public SectorEntryDTO saveOrUpdateSectorEntry(SectorEntrySaveOrUpdateDTO sectorEntryDTO) {
-        final SectorEntry sectorEntry2 = sectorEntryRepository.save(sectorEntryMapper.map(sectorEntryDTO));
-        return sectorEntryMapper.mapToDto(sectorEntry2);
+        final SectorEntry sectorEntry = sectorEntryRepository.save(sectorEntryMapper.map(sectorEntryDTO));
+        return sectorEntryMapper.mapToDto(sectorEntry);
     }
 }

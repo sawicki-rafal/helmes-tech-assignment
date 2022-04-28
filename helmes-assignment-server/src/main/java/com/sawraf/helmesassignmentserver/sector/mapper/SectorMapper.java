@@ -1,5 +1,6 @@
 package com.sawraf.helmesassignmentserver.sector.mapper;
 
+import com.sawraf.helmesassignmentserver.exception.ApplicationException;
 import com.sawraf.helmesassignmentserver.sector.dto.SectorDTO;
 import com.sawraf.helmesassignmentserver.sector.entity.Sector;
 import com.sawraf.helmesassignmentserver.sector.repository.SectorRepository;
@@ -10,6 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ERROR_ENTITY_NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -48,16 +51,11 @@ public class SectorMapper {
         return sector;
     }
 
-    public Set<Sector> map(Collection<SectorDTO> sectorDTOs) {
-        return sectorDTOs.stream()
-                .map(this::map)
-                .collect(Collectors.toSet());
-    }
-
     public Set<Sector> map(List<Long> sectorIds) {
         return sectorIds.stream()
-                //TODO throw Exception
-                .map(id -> sectorRepository.findById(id).get())
+                .map(id -> sectorRepository.findById(id)
+                        .orElseThrow(()->
+                                new ApplicationException(ERROR_ENTITY_NOT_FOUND, Sector.class.getName(), id)))
                 .collect(Collectors.toSet());
     }
 }

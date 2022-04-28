@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.CANNOT_COMMIT_TRANSACTION;
 import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ERROR_VALIDATION;
 
 
@@ -23,7 +25,8 @@ import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ER
 public class ApiRequestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final MessageResolver messageResolver;
-    @Value("${citylistapp.error.print.stacktrace:false}")
+
+    @Value("${helmes.assignment.error.print.stacktrace:false}")
     private boolean printStackTrace;
 
     public ApiRequestExceptionHandler(MessageResolver messageResolver) {
@@ -35,7 +38,7 @@ public class ApiRequestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleApplicationException(ApplicationException exception) {
         final String message = messageResolver.getMessage(exception);
         final ErrorResponse errorResponse = buildErrorResponse(exception, message);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     private ErrorResponse buildErrorResponse(Exception exception,
@@ -61,5 +64,11 @@ public class ApiRequestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
     }
 
-
+    @ExceptionHandler({TransactionSystemException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<ErrorResponse> handleTransactionSystemException(TransactionSystemException exception) {
+        final String message = messageResolver.getMessage(CANNOT_COMMIT_TRANSACTION);
+        final ErrorResponse errorResponse = buildErrorResponse(exception, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 }

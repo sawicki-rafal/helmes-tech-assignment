@@ -1,5 +1,6 @@
 package com.sawraf.helmesassignmentserver.sector.mapper;
 
+import com.sawraf.helmesassignmentserver.exception.ApplicationException;
 import com.sawraf.helmesassignmentserver.sector.dto.SectorEntryDTO;
 import com.sawraf.helmesassignmentserver.sector.dto.SectorEntrySaveOrUpdateDTO;
 import com.sawraf.helmesassignmentserver.sector.entity.SectorEntry;
@@ -11,6 +12,8 @@ import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ERROR_ENTITY_NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -49,8 +52,9 @@ public class SectorEntryMapper {
         if (isNew(entryDTO)) {
             sectorEntry = new SectorEntry();
         } else {
-            //TODO check if entry exists
-            sectorEntry = sectorEntryRepository.findById(entryDTO.getId()).get();
+            sectorEntry = sectorEntryRepository.findById(entryDTO.getId())
+                    .orElseThrow(() ->
+                            new ApplicationException(ERROR_ENTITY_NOT_FOUND, SectorEntry.class, entryDTO.getId()));
         }
         return sectorEntry;
     }
