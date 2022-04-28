@@ -83,45 +83,39 @@ export default {
       if (!this.isFormValid()) {
         return;
       }
-
-      const sectorEntry = {
-        id: this.form.id,
-        name: this.form.name,
-        sectors: this.form.sectors,
-        agreedToTerms: this.form.agreedToTerms
-      }
+      const sectorEntry = this.form;
       if (sectorEntry.id === null) {
         this.save(sectorEntry);
       } else {
         this.update(sectorEntry);
       }
+      this.clearErrors();
     },
     save(sectorEntry) {
       sectorEntryService.saveSectorEntry(sectorEntry)
           .then(response => {
             const data = response.data;
-            this.setResponse(data);
+            this.form = this.setResponse(data);
           })
           .catch(error => {
             this.$store.dispatch('exception/addError', error);
             console.log(error.response);
           });
     },
-    setResponse(returnedSectorEntry) {
-
-      this.form = {
-        id: returnedSectorEntry.id,
-        name: returnedSectorEntry.name,
-        agreedToTerms: returnedSectorEntry.agreedToTerms,
-        sectors: returnedSectorEntry.sectors
-      }
+    setResponse(sectorEntry) {
+      return {
+        agreedToTerms: sectorEntry.agreedToTerms,
+        id: sectorEntry.id,
+        name: sectorEntry.name,
+        sectors: sectorEntry.sectors.map(s => s.id)
+      };
     },
     update(sectorEntry) {
       sectorEntryService.updateSectorEntry(sectorEntry)
           .then(response => {
             const data = response.data;
             console.log(data);
-            this.form = data;
+            this.form = this.setResponse(data);
           })
           .catch(error => {
             this.$store.dispatch('exception/addError', error);
