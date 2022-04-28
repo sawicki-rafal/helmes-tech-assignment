@@ -15,7 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "sectors")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, exclude = {"childrenSectors"})

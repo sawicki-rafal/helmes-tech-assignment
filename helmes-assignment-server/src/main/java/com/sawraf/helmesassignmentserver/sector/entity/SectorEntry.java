@@ -13,7 +13,6 @@ import java.util.Set;
 @Entity
 @Table(name = "sector_entries")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)

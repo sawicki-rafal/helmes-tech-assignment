@@ -1,6 +1,7 @@
 package com.sawraf.helmesassignmentserver.exception.message;
 
 import com.sawraf.helmesassignmentserver.exception.ApplicationException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -11,15 +12,12 @@ import java.util.Locale;
  * Resolves locale messages based on {@link MessageCode} for Exceptions
  */
 @Component
+@RequiredArgsConstructor
 public class MessageResolver {
 
     private static final Locale LOCALE = LocaleContextHolder.getLocale();
 
     private final MessageSource messageSource;
-
-    public MessageResolver(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 
     public String getMessage(ApplicationException exception) {
         final MessageCode messageCode = exception.getMessageCode();

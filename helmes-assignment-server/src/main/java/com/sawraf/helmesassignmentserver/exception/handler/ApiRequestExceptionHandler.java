@@ -4,6 +4,7 @@ package com.sawraf.helmesassignmentserver.exception.handler;
 import com.sawraf.helmesassignmentserver.exception.ApplicationException;
 import com.sawraf.helmesassignmentserver.exception.message.MessageResolver;
 import com.sawraf.helmesassignmentserver.exception.response.ErrorResponse;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -22,16 +23,13 @@ import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ER
 
 
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ApiRequestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final MessageResolver messageResolver;
 
     @Value("${helmes.assignment.error.print.stacktrace:false}")
     private boolean printStackTrace;
-
-    public ApiRequestExceptionHandler(MessageResolver messageResolver) {
-        this.messageResolver = messageResolver;
-    }
 
     @ExceptionHandler({ApplicationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
