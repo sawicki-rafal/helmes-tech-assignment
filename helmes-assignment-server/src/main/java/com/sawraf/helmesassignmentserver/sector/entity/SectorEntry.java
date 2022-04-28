@@ -20,7 +20,7 @@ import java.util.Set;
 public class SectorEntry extends AbstractEntity {
 
     @NotNull
-    @Size(min = 3, message = "Name must contain at least 3 characters")
+    @Size(min = 3)
     private String name;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
