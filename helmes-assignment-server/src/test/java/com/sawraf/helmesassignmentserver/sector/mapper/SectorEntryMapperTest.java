@@ -101,8 +101,7 @@ class SectorEntryMapperTest {
         Sector sector = new Sector();
         sector.setId(sectorId);
         final Set<Sector> sectors = Set.of(sector);
-        
-        when(sectorEntryRepository.findById(SECTOR_ENTRY_1_ID)).thenReturn(Optional.of(sectorEntry_1));
+
         when(sectorMapper.map(sectorIds)).thenReturn(sectors);
 
         final SectorEntrySaveOrUpdateDTO updateDTO = new SectorEntrySaveOrUpdateDTO();
@@ -111,13 +110,14 @@ class SectorEntryMapperTest {
         updateDTO.setSectors(sectorIds);
         updateDTO.setAgreedToTerms(false);
 
-        final SectorEntry toBeUpdatedSectorEntry = sectorEntryMapper.map(updateDTO);
-        
+        SectorEntry toBeUpdatedSectorEntry = new SectorEntry();
+        toBeUpdatedSectorEntry = sectorEntryMapper.map(updateDTO, toBeUpdatedSectorEntry);
+
         assertThat(toBeUpdatedSectorEntry.getId()).isEqualTo(updateDTO.getId());
         assertThat(toBeUpdatedSectorEntry.getName()).isEqualTo(updateDTO.getName());
         assertThat(toBeUpdatedSectorEntry.getSectors()).isEqualTo(sectors);
         assertThat(toBeUpdatedSectorEntry.isAgreedToTerms()).isEqualTo(updateDTO.isAgreedToTerms());
-        
+
     }
 
     @Test
@@ -136,33 +136,14 @@ class SectorEntryMapperTest {
         saveDTO.setSectors(sectorIds);
         saveDTO.setAgreedToTerms(false);
 
-        final SectorEntry toBeSavedSectorEntry = sectorEntryMapper.map(saveDTO);
+        SectorEntry toBeSavedSectorEntry = new SectorEntry();
+        toBeSavedSectorEntry = sectorEntryMapper.map(saveDTO, toBeSavedSectorEntry);
 
         assertThat(toBeSavedSectorEntry.getId()).isEqualTo(saveDTO.getId());
         assertThat(toBeSavedSectorEntry.getName()).isEqualTo(saveDTO.getName());
         assertThat(toBeSavedSectorEntry.getSectors()).isEqualTo(sectors);
         assertThat(toBeSavedSectorEntry.isAgreedToTerms()).isEqualTo(saveDTO.isAgreedToTerms());
 
-    }
-
-    @Test
-    void shouldThrowErrorWhenUpdateWithNotKnownId() {
-        final long searchId = 123456L;
-
-        final SectorEntrySaveOrUpdateDTO updateDTO = new SectorEntrySaveOrUpdateDTO();
-        updateDTO.setId(searchId);
-        updateDTO.setName("CHANGED_NAME");
-
-        final ApplicationException exception = assertThrows(ApplicationException.class, () -> {
-            sectorEntryMapper.map(updateDTO);
-        });
-
-
-        final List<Object> messageArgs = exception.getMessageArgs();
-        final MessageCode messageCode = exception.getMessageCode();
-
-        assertThat(messageArgs).contains(searchId);
-        assertThat(messageCode).isEqualTo(ERROR_ENTITY_NOT_FOUND);
     }
 
 }

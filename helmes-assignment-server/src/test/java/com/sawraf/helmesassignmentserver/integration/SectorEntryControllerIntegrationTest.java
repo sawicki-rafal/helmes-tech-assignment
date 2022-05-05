@@ -15,10 +15,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -118,7 +115,9 @@ public class SectorEntryControllerIntegrationTest {
 
         testRestTemplate.put("http://localhost:" + port + "/api/sector-entries", updateDTO, SectorEntryDTO.class);
 
-        final SectorEntry dbSectorEntry = sectorEntryRepository.findById(updateDTO.getId()).get();
+        Optional<SectorEntry> sectorEntry = sectorEntryRepository.findById(updateDTO.getId());
+
+        final SectorEntry dbSectorEntry = sectorEntry.get();
 
         assertThat(dbSectorEntry.getId()).isEqualTo(updateDTO.getId());
         assertThat(dbSectorEntry.getName()).isEqualTo(updateDTO.getName());
