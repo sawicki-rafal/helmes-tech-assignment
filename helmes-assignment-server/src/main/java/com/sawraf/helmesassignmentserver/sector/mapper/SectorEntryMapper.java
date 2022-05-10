@@ -36,7 +36,6 @@ public class SectorEntryMapper {
     public SectorEntry map(SectorEntrySaveOrUpdateDTO entryDTO, SectorEntry entry) {
         entry.setId(entryDTO.getId());
         entry.setName(entryDTO.getName());
-        entry.setSectors(sectorMapper.map(entryDTO.getSectors()));
         entry.setAgreedToTerms(entryDTO.isAgreedToTerms());
         return entry;
     }

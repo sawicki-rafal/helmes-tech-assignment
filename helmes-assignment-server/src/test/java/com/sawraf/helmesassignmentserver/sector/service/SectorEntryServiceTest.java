@@ -9,6 +9,7 @@ import com.sawraf.helmesassignmentserver.sector.entity.Sector;
 import com.sawraf.helmesassignmentserver.sector.entity.SectorEntry;
 import com.sawraf.helmesassignmentserver.sector.mapper.SectorEntryMapper;
 import com.sawraf.helmesassignmentserver.sector.repository.SectorEntryRepository;
+import com.sawraf.helmesassignmentserver.sector.repository.SectorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,9 @@ class SectorEntryServiceTest {
 
     @Mock
     private SectorEntryRepository sectorEntryRepository;
+
+    @Mock
+    private SectorRepository sectorRepository;
 
     @Mock
     private SectorEntryMapper sectorEntryMapper;
@@ -135,14 +139,13 @@ class SectorEntryServiceTest {
         when(sectorEntryMapper.map(sectorEntrySaveOrUpdateDTO_1,sectorEntry_1)).thenReturn(updatedSectorEntry_1);
 
         when(sectorEntryRepository.save(updatedSectorEntry_1)).thenReturn(updatedSectorEntry_1);
+        when(sectorRepository.findById(SECTOR_1_ID)).thenReturn(Optional.of(sector_1));
         when(sectorEntryMapper.mapToDto(updatedSectorEntry_1)).thenReturn(updatedSectorEntryDTO_1);
 
         final SectorEntryDTO sectorEntryDTO = sectorEntryService.saveOrUpdateSectorEntry(sectorEntrySaveOrUpdateDTO_1);
 
         assertThat(sectorEntryDTO).isEqualTo(updatedSectorEntryDTO_1);
     }
-
-
 
     @Test
     void shouldThrowErrorWhenUpdateWithNotKnownId() {
@@ -163,5 +166,35 @@ class SectorEntryServiceTest {
         assertThat(messageCode).isEqualTo(ERROR_ENTITY_NOT_FOUND);
     }
 
+    @Test
+    void shouldThrowErrorWhenUnknownSectorId(){
+        final long sectorId = 5L;
+        final String updatedName = "TEST_ANDRZEJ_UPDATE";
+
+        final SectorEntrySaveOrUpdateDTO sectorEntrySaveOrUpdateDTO_1 = new SectorEntrySaveOrUpdateDTO();
+        sectorEntrySaveOrUpdateDTO_1.setId(SECTOR_ENTRY_1_ID);
+        sectorEntrySaveOrUpdateDTO_1.setName(updatedName);
+        sectorEntrySaveOrUpdateDTO_1.setAgreedToTerms(true);
+        sectorEntrySaveOrUpdateDTO_1.setSectors(Collections.singletonList(sectorId));
+
+        final SectorEntry updatedSectorEntry_1 = new SectorEntry();
+        updatedSectorEntry_1.setId(SECTOR_ENTRY_1_ID);
+        updatedSectorEntry_1.setName(updatedName);
+        updatedSectorEntry_1.setAgreedToTerms(true);
+
+        when(sectorEntryRepository.findById(SECTOR_ENTRY_1_ID)).thenReturn(Optional.of(sectorEntry_1));
+        when(sectorEntryMapper.map(sectorEntrySaveOrUpdateDTO_1,sectorEntry_1)).thenReturn(updatedSectorEntry_1);
+        when(sectorRepository.findById(sectorId)).thenReturn(Optional.empty());
+
+        final ApplicationException exception = assertThrows(ApplicationException.class,()->{
+            sectorEntryService.saveOrUpdateSectorEntry(sectorEntrySaveOrUpdateDTO_1);
+        });
+
+        final List<Object> messageArgs = exception.getMessageArgs();
+        final MessageCode messageCode = exception.getMessageCode();
+
+        assertThat(messageArgs).contains(sectorId);
+        assertThat(messageCode).isEqualTo(ERROR_ENTITY_NOT_FOUND);
+    }
 
 }

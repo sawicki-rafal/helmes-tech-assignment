@@ -119,41 +119,4 @@ class SectorMapperTest {
                     .isEqualTo(sector.getChildrenSectors().size());
         });
     }
-
-    @Test
-    void shouldMapFromIds() {
-        final List<Long> ids = new LinkedList<>();
-        ids.add(PARENT_SECTOR_ID);
-        ids.add(SINGLE_SECTOR_ID);
-
-        when(sectorRepository.findById(PARENT_SECTOR_ID)).thenReturn(Optional.of(parentSector));
-        when(sectorRepository.findById(SINGLE_SECTOR_ID)).thenReturn(Optional.of(singleSector));
-
-        final Set<Sector> sectors = sectorMapper.map(ids);
-
-        assertThat(sectors.size()).isEqualTo(ids.size());
-
-        ids.forEach(id -> {
-            sectors.stream()
-                    .filter(s -> s.getId().equals(id))
-                    .findFirst().get();
-        });
-    }
-
-    @Test
-    void shouldThrowErrorWhenUnknownId(){
-        final long searchId = 5L;
-        when(sectorRepository.findById(searchId)).thenReturn(Optional.empty());
-
-        final ApplicationException exception = assertThrows(ApplicationException.class,()->{
-            sectorMapper.map(Collections.singletonList(searchId));
-        });
-
-        final List<Object> messageArgs = exception.getMessageArgs();
-        final MessageCode messageCode = exception.getMessageCode();
-
-        assertThat(messageArgs).contains(searchId);
-        assertThat(messageCode).isEqualTo(ERROR_ENTITY_NOT_FOUND);
-    }
-
 }

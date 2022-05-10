@@ -1,13 +1,10 @@
 package com.sawraf.helmesassignmentserver.sector.mapper;
 
-import com.sawraf.helmesassignmentserver.exception.ApplicationException;
-import com.sawraf.helmesassignmentserver.exception.message.MessageCode;
 import com.sawraf.helmesassignmentserver.sector.dto.SectorDTO;
 import com.sawraf.helmesassignmentserver.sector.dto.SectorEntryDTO;
 import com.sawraf.helmesassignmentserver.sector.dto.SectorEntrySaveOrUpdateDTO;
 import com.sawraf.helmesassignmentserver.sector.entity.Sector;
 import com.sawraf.helmesassignmentserver.sector.entity.SectorEntry;
-import com.sawraf.helmesassignmentserver.sector.repository.SectorEntryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,11 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
-import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ERROR_ENTITY_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,9 +26,6 @@ class SectorEntryMapperTest {
     public static final long SECTOR_ENTRY_1_ID = 1L;
     @Mock
     private SectorMapper sectorMapper;
-
-    @Mock
-    private SectorEntryRepository sectorEntryRepository;
 
     @InjectMocks
     private SectorEntryMapper sectorEntryMapper;
@@ -96,18 +91,10 @@ class SectorEntryMapperTest {
 
     @Test
     void shouldMapFromUpdateDTO() {
-        final long sectorId = 1L;
-        final List<Long> sectorIds = List.of(sectorId);
-        Sector sector = new Sector();
-        sector.setId(sectorId);
-        final Set<Sector> sectors = Set.of(sector);
-
-        when(sectorMapper.map(sectorIds)).thenReturn(sectors);
 
         final SectorEntrySaveOrUpdateDTO updateDTO = new SectorEntrySaveOrUpdateDTO();
         updateDTO.setId(SECTOR_ENTRY_1_ID);
         updateDTO.setName("CHANGED_NAME");
-        updateDTO.setSectors(sectorIds);
         updateDTO.setAgreedToTerms(false);
 
         SectorEntry toBeUpdatedSectorEntry = new SectorEntry();
@@ -122,18 +109,10 @@ class SectorEntryMapperTest {
 
     @Test
     void shouldMapFromSaveDTO() {
-        final long sectorId = 1L;
-        final List<Long> sectorIds = List.of(sectorId);
-        Sector sector = new Sector();
-        sector.setId(sectorId);
-        final Set<Sector> sectors = Set.of(sector);
-
-        when(sectorMapper.map(sectorIds)).thenReturn(sectors);
 
         final SectorEntrySaveOrUpdateDTO saveDTO = new SectorEntrySaveOrUpdateDTO();
         saveDTO.setId(null);
         saveDTO.setName("CHANGED_NAME");
-        saveDTO.setSectors(sectorIds);
         saveDTO.setAgreedToTerms(false);
 
         SectorEntry toBeSavedSectorEntry = new SectorEntry();

@@ -19,7 +19,7 @@ import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ER
 @RequiredArgsConstructor
 public class SectorMapper {
 
-    private final SectorRepository sectorRepository;
+//    private final SectorRepository sectorRepository;
 
     public SectorDTO mapToDto(Sector sector) {
         SectorDTO sectorDTO = new SectorDTO();
@@ -45,12 +45,12 @@ public class SectorMapper {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
-
-    public Set<Sector> map(List<Long> sectorIds) {
-        return sectorIds.stream()
-                .map(id -> sectorRepository.findById(id)
-                        .orElseThrow(()->
-                                new ApplicationException(ERROR_ENTITY_NOT_FOUND, Sector.class.getName(), id)))
-                .collect(Collectors.toSet());
-    }
+//
+//    public Set<Sector> map(List<Long> sectorIds) {
+//        return sectorIds.stream()
+//                .map(id -> sectorRepository.findById(id)
+//                        .orElseThrow(()->
+//                                new ApplicationException(ERROR_ENTITY_NOT_FOUND, Sector.class.getName(), id)))
+//                .collect(Collectors.toSet());
+//    }
 }
