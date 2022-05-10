@@ -1,3 +1,4 @@
+# Task desription
     1.Create a single page application
  
         1.Use index.html as the basis
@@ -15,3 +16,17 @@
         2.Store all input data to database (Name, Sectors, Agree to terms)
         3.Refill the form using stored data 
         4.Allow the "Sectors" data to be edited
+
+## Importing database dump
+
+If your database is running in docker you can execute:
+
+```bash
+cat dump.sql | docker exec -i postgres_latest psql -U postgres
+```
+
+If it is standalone PostgresSQL instance then execute:
+
+```bash
+psql DATABASE_NAME < dump.sql
+```

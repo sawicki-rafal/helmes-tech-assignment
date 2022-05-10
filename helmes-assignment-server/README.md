@@ -23,6 +23,14 @@ source ./.env
 env.bat
 ```
 
+### Importing database dump
+
+If your database is running in docker you can execute:
+
+```bash
+cat dump.sql | docker exec -i postgres_latest psql -U postgres
+```
+
 ## Server startup
 
 Open a command line (or terminal) and navigate to the folder where you have the project files. One can build and run the
