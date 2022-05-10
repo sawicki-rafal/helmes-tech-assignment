@@ -1,9 +1,7 @@
 package com.sawraf.helmesassignmentserver.sector.mapper;
 
-import com.sawraf.helmesassignmentserver.exception.ApplicationException;
 import com.sawraf.helmesassignmentserver.sector.dto.SectorDTO;
 import com.sawraf.helmesassignmentserver.sector.entity.Sector;
-import com.sawraf.helmesassignmentserver.sector.repository.SectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +11,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.sawraf.helmesassignmentserver.exception.message.MessageCode.ERROR_ENTITY_NOT_FOUND;
-
 @Component
 @RequiredArgsConstructor
 public class SectorMapper {
-
-//    private final SectorRepository sectorRepository;
 
     public SectorDTO mapToDto(Sector sector) {
         SectorDTO sectorDTO = new SectorDTO();
@@ -45,12 +39,4 @@ public class SectorMapper {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
-//
-//    public Set<Sector> map(List<Long> sectorIds) {
-//        return sectorIds.stream()
-//                .map(id -> sectorRepository.findById(id)
-//                        .orElseThrow(()->
-//                                new ApplicationException(ERROR_ENTITY_NOT_FOUND, Sector.class.getName(), id)))
-//                .collect(Collectors.toSet());
-//    }
 }
