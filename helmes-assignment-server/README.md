@@ -28,7 +28,7 @@ env.bat
 If your database is running in docker you can execute:
 
 ```bash
-cat dump.sql | docker exec -i postgres_latest psql -U postgres
+cat dump.sql | docker exec -i postgres_latest psql -U postgres -d helmes-assignment
 ```
 
 ## Server startup

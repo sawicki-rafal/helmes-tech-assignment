@@ -22,11 +22,11 @@
 If your database is running in docker you can execute:
 
 ```bash
-cat dump.sql | docker exec -i postgres_latest psql -U postgres
+cat dump.sql | docker exec -i postgres_latest psql -U postgres -d helmes-assignment
 ```
 
 If it is standalone PostgresSQL instance then execute:
 
 ```bash
-psql DATABASE_NAME < dump.sql
+psql helmes-assignment < dump.sql
 ```
